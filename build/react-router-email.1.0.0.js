@@ -98,12 +98,6 @@
 	        'div',
 	        null,
 	        React.createElement(
-	            Link,
-	            { to: '/inbox/' + props.id },
-	            ' ',
-	            props.title
-	        ),
-	        React.createElement(
 	            'p',
 	            null,
 	            'From: ',

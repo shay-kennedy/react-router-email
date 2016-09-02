@@ -49,7 +49,6 @@ var Inbox = function(props) {
     var email = EMAILS.inbox[props.params.inboxId];
     return(
         <div>
-            <Link to={'/inbox/' + props.id}> {props.title}</Link>
             <p>From: {email.from}</p>
             <p>To: {email.to}</p>
             <p>Title: {email.title}</p>
