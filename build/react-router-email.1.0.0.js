@@ -150,22 +150,56 @@
 	    );
 	};
 	
+	var InboxList = function InboxList(props) {
+	    var emails = Object.keys(props.inbox).map(function (emailId, index) {
+	        var email = props.inbox[emailId];
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(Inbox, { id: email.id,
+	                from: email.from,
+	                to: email.to,
+	                title: email.title,
+	                content: email.content,
+	                key: index })
+	        );
+	    });
+	    return React.createElement(
+	        'div',
+	        null,
+	        emails
+	    );
+	};
+	
+	var SpamList = function SpamList(props) {
+	    var spams = Object.keys(props.spam).map(function (spamId, index) {
+	        var spam = props.spam[spamId];
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(Inbox, { id: spam.id,
+	                from: spam.from,
+	                to: spam.to,
+	                title: spam.title,
+	                content: spam.content,
+	                key: index })
+	        );
+	    });
+	    return React.createElement(
+	        'div',
+	        null,
+	        spams
+	    );
+	};
+	
 	var InboxListContainer = function InboxListContainer() {
 	
-	    return React.createElement(
-	        'p',
-	        null,
-	        'Inbox List Container test'
-	    );
+	    return React.createElement(InboxList, { inbox: EMAILS.inbox });
 	};
 	
 	var SpamListContainer = function SpamListContainer() {
 	
-	    return React.createElement(
-	        'p',
-	        null,
-	        'Spam List Container test'
-	    );
+	    return React.createElement(SpamList, { spam: EMAILS.spam });
 	};
 	
 	var App = function App(props) {
