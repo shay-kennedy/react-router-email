@@ -9,7 +9,7 @@ var Link = router.Link;
 
 var EMAILS = {
     inbox: {
-        0: {
+       0: {
             id: 0,
             from: "billg@microsoft.com",
             to: "TeamWoz@Woz.org",
@@ -44,12 +44,16 @@ var EMAILS = {
 
 
 var Inbox = function(props) {
+    // I need to know which email the url is pointing to
+    console.log(EMAILS.inbox[props.params.inboxId]);
+    var email = EMAILS.inbox[props.params.inboxId];
     return(
         <div>
-            <p>From: {props.from}</p>
-            <p>To: {props.to}</p>
-            <p>Title: {props.title}</p>
-            <p>{props.content}</p> 
+            <Link to={'/inbox/' + props.id}> {props.title}</Link>
+            <p>From: {email.from}</p>
+            <p>To: {email.to}</p>
+            <p>Title: {email.title}</p>
+            <p>{email.content}</p> 
 
         </div>
         );
@@ -57,12 +61,14 @@ var Inbox = function(props) {
 }
 
 var Spam = function(props) {
+    console.log(EMAILS.spam[props.params.spamId]);
+    var spam = EMAILS.spam[props.params.spamId];
     return(
          <div>
-            <p>From: {props.from}</p>
-            <p>To: {props.to}</p>
-            <p>Title: {props.title}</p>
-            <p>{props.content}</p> 
+            <p>From: {spam.from}</p>
+            <p>To: {spam.to}</p>
+            <p>Title: {spam.title}</p>
+            <p>{spam.content}</p> 
 
         </div>
         );
@@ -70,16 +76,12 @@ var Spam = function(props) {
 
 
 var InboxList = function(props) {
-    var emails = Object.keys(props.inbox).map(function(emailId, index) {
-        var email = props.inbox[emailId];
+    var emails = Object.keys(props.inbox).map(function(inboxId, index) {
+        var email = props.inbox[inboxId];
         return (
            <div>
-                <Inbox id={email.id}
-                from={email.from}
-                to={email.to}
-                title={email.title}
-                content={email.content}
-                key={index} />
+           <Link to={'/inbox/' + email.id}> {email.title}</Link>
+         
            </div>
         );
     });
@@ -96,12 +98,7 @@ var SpamList = function(props) {
         var spam = props.spam[spamId];
         return (
            <div>
-                <Inbox id={spam.id}
-                from={spam.from}
-                to={spam.to}
-                title={spam.title}
-                content={spam.content}
-                key={index} />
+                <Link to={'/spam/' + spam.id}> {spam.title}</Link>
            </div>
         );
     });
@@ -137,6 +134,21 @@ var App = function(props) {
                 Email App
             </h1>
             <div>
+             <strong>
+                <Link to={'/inbox'}>
+                    Inbox
+                </Link>
+            </strong>    
+            </div>
+            <div>
+            <strong>
+                <Link to={'/spam'}>
+                    Spam
+                </Link>
+            </strong>          
+            </div>
+
+            <div>
                 {props.children}
             </div>
         </div>
@@ -146,13 +158,13 @@ var App = function(props) {
 var routes = (
     <Router history={hashHistory}>
         <Route path="/" component={App} />
-        <Route path="/emails" component={App}>
+        <Route path="/inbox" component={App}>
             <IndexRoute component={InboxListContainer} />
-            <Route path=":emailId" component={InboxListContainer} />
+            <Route path=":inboxId" component={Inbox} />
         </Route>
         <Route path="/spam" component={App}>
             <IndexRoute component={SpamListContainer} />
-            <Route path=":spamId" component={SpamListContainer} />
+            <Route path=":spamId" component={Spam} />
         </Route>
     </Router>
 );

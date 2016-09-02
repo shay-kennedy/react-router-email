@@ -91,36 +91,47 @@
 	};
 	
 	var Inbox = function Inbox(props) {
+	    // I need to know which email the url is pointing to
+	    console.log(EMAILS.inbox[props.params.inboxId]);
+	    var email = EMAILS.inbox[props.params.inboxId];
 	    return React.createElement(
 	        'div',
 	        null,
 	        React.createElement(
-	            'p',
-	            null,
-	            'From: ',
-	            props.from
-	        ),
-	        React.createElement(
-	            'p',
-	            null,
-	            'To: ',
-	            props.to
-	        ),
-	        React.createElement(
-	            'p',
-	            null,
-	            'Title: ',
+	            Link,
+	            { to: '/inbox/' + props.id },
+	            ' ',
 	            props.title
 	        ),
 	        React.createElement(
 	            'p',
 	            null,
-	            props.content
+	            'From: ',
+	            email.from
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'To: ',
+	            email.to
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'Title: ',
+	            email.title
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            email.content
 	        )
 	    );
 	};
 	
 	var Spam = function Spam(props) {
+	    console.log(EMAILS.spam[props.params.spamId]);
+	    var spam = EMAILS.spam[props.params.spamId];
 	    return React.createElement(
 	        'div',
 	        null,
@@ -128,40 +139,40 @@
 	            'p',
 	            null,
 	            'From: ',
-	            props.from
+	            spam.from
 	        ),
 	        React.createElement(
 	            'p',
 	            null,
 	            'To: ',
-	            props.to
+	            spam.to
 	        ),
 	        React.createElement(
 	            'p',
 	            null,
 	            'Title: ',
-	            props.title
+	            spam.title
 	        ),
 	        React.createElement(
 	            'p',
 	            null,
-	            props.content
+	            spam.content
 	        )
 	    );
 	};
 	
 	var InboxList = function InboxList(props) {
-	    var emails = Object.keys(props.inbox).map(function (emailId, index) {
-	        var email = props.inbox[emailId];
+	    var emails = Object.keys(props.inbox).map(function (inboxId, index) {
+	        var email = props.inbox[inboxId];
 	        return React.createElement(
 	            'div',
 	            null,
-	            React.createElement(Inbox, { id: email.id,
-	                from: email.from,
-	                to: email.to,
-	                title: email.title,
-	                content: email.content,
-	                key: index })
+	            React.createElement(
+	                Link,
+	                { to: '/inbox/' + email.id },
+	                ' ',
+	                email.title
+	            )
 	        );
 	    });
 	    return React.createElement(
@@ -177,12 +188,12 @@
 	        return React.createElement(
 	            'div',
 	            null,
-	            React.createElement(Inbox, { id: spam.id,
-	                from: spam.from,
-	                to: spam.to,
-	                title: spam.title,
-	                content: spam.content,
-	                key: index })
+	            React.createElement(
+	                Link,
+	                { to: '/spam/' + spam.id },
+	                ' ',
+	                spam.title
+	            )
 	        );
 	    });
 	    return React.createElement(
@@ -214,6 +225,32 @@
 	        React.createElement(
 	            'div',
 	            null,
+	            React.createElement(
+	                'strong',
+	                null,
+	                React.createElement(
+	                    Link,
+	                    { to: '/inbox' },
+	                    'Inbox'
+	                )
+	            )
+	        ),
+	        React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'strong',
+	                null,
+	                React.createElement(
+	                    Link,
+	                    { to: '/spam' },
+	                    'Spam'
+	                )
+	            )
+	        ),
+	        React.createElement(
+	            'div',
+	            null,
 	            props.children
 	        )
 	    );
@@ -225,15 +262,15 @@
 	    React.createElement(Route, { path: '/', component: App }),
 	    React.createElement(
 	        Route,
-	        { path: '/emails', component: App },
+	        { path: '/inbox', component: App },
 	        React.createElement(IndexRoute, { component: InboxListContainer }),
-	        React.createElement(Route, { path: ':emailId', component: InboxListContainer })
+	        React.createElement(Route, { path: ':inboxId', component: Inbox })
 	    ),
 	    React.createElement(
 	        Route,
 	        { path: '/spam', component: App },
 	        React.createElement(IndexRoute, { component: SpamListContainer }),
-	        React.createElement(Route, { path: ':spamId', component: SpamListContainer })
+	        React.createElement(Route, { path: ':spamId', component: Spam })
 	    )
 	);
 	
