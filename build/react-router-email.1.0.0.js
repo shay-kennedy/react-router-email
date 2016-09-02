@@ -55,67 +55,117 @@
 	var IndexRoute = router.IndexRoute;
 	var Link = router.Link;
 	
-	var CONTACTS = {
-	    0: {
-	        id: 0,
-	        name: 'Sarah Hughes',
-	        phoneNumber: '01234 567890'
+	var EMAILS = {
+	    inbox: {
+	        0: {
+	            id: 0,
+	            from: "billg@microsoft.com",
+	            to: "TeamWoz@Woz.org",
+	            title: "Possible work opportunity",
+	            content: "Dear Woz.  Fancy a job at Mister Softee?  Bill x"
+	        },
+	        1: {
+	            id: 1,
+	            from: "zuck@facebook.com",
+	            to: "TeamWoz@Woz.org",
+	            title: "Do you know PHP?",
+	            content: "Dear Woz.  We are in need of a PHP expert.  Fast.  Zuck x"
+	        }
 	    },
-	    1: {
-	        id: 1,
-	        name: 'Tim Taylor',
-	        phoneNumber: '02345 678901'
-	    },
-	    2: {
-	        id: 2,
-	        name: 'Sam Smith',
-	        phoneNumber: '03456 789012'
+	    spam: {
+	        0: {
+	            id: 0,
+	            from: "ChEaPFl1ghTZ@hotmail.com",
+	            to: "TeamWoz@Woz.org",
+	            title: "WaNt CHEEp FlitZ",
+	            content: "Theyre CheEp"
+	        },
+	        1: {
+	            id: 1,
+	            from: "NiKEAIRJordanZ@hotmail.com",
+	            to: "TeamWoz@Woz.org",
+	            title: "JorDanz For SAle",
+	            content: "Theyre REELY CheEp"
+	        }
 	    }
 	};
 	
-	var Contact = function Contact(props) {
+	var Inbox = function Inbox(props) {
 	    return React.createElement(
 	        'div',
 	        null,
 	        React.createElement(
-	            'strong',
+	            'p',
 	            null,
-	            React.createElement(
-	                Link,
-	                { to: '/contacts/' + props.id },
-	                props.name
-	            )
+	            'From: ',
+	            props.from
 	        ),
-	        ' ',
-	        props.phoneNumber
+	        React.createElement(
+	            'p',
+	            null,
+	            'To: ',
+	            props.to
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'Title: ',
+	            props.title
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            props.content
+	        )
 	    );
 	};
 	
-	var ContactContainer = function ContactContainer(props) {
-	    var contact = CONTACTS[props.params.contactId];
-	    return React.createElement(Contact, { id: contact.id, name: contact.name,
-	        phoneNumber: contact.phoneNumber });
-	};
-	
-	var ContactList = function ContactList(props) {
-	    var contacts = Object.keys(props.contacts).map(function (contactId, index) {
-	        var contact = props.contacts[contactId];
-	        return React.createElement(
-	            'li',
-	            { key: index },
-	            React.createElement(Contact, { id: contact.id, name: contact.name,
-	                phoneNumber: contact.phoneNumber })
-	        );
-	    });
+	var Spam = function Spam(props) {
 	    return React.createElement(
-	        'ul',
+	        'div',
 	        null,
-	        contacts
+	        React.createElement(
+	            'p',
+	            null,
+	            'From: ',
+	            props.from
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'To: ',
+	            props.to
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            'Title: ',
+	            props.title
+	        ),
+	        React.createElement(
+	            'p',
+	            null,
+	            props.content
+	        )
 	    );
 	};
 	
-	var ContactListContainer = function ContactListContainer() {
-	    return React.createElement(ContactList, { contacts: CONTACTS });
+	var InboxListContainer = function InboxListContainer() {
+	
+	    return React.createElement(
+	        'p',
+	        null,
+	        'Inbox List Container test'
+	    );
+	};
+	
+	var SpamListContainer = function SpamListContainer() {
+	
+	    return React.createElement(
+	        'p',
+	        null,
+	        'Spam List Container test'
+	    );
 	};
 	
 	var App = function App(props) {
@@ -125,7 +175,7 @@
 	        React.createElement(
 	            'h1',
 	            null,
-	            'Contacts App'
+	            'Email App'
 	        ),
 	        React.createElement(
 	            'div',
@@ -138,11 +188,18 @@
 	var routes = React.createElement(
 	    Router,
 	    { history: hashHistory },
+	    React.createElement(Route, { path: '/', component: App }),
 	    React.createElement(
 	        Route,
-	        { path: '/contacts', component: App },
-	        React.createElement(IndexRoute, { component: ContactListContainer }),
-	        React.createElement(Route, { path: ':contactId', component: ContactContainer })
+	        { path: '/emails', component: App },
+	        React.createElement(IndexRoute, { component: InboxListContainer }),
+	        React.createElement(Route, { path: ':emailId', component: InboxListContainer })
+	    ),
+	    React.createElement(
+	        Route,
+	        { path: '/spam', component: App },
+	        React.createElement(IndexRoute, { component: SpamListContainer }),
+	        React.createElement(Route, { path: ':spamId', component: SpamListContainer })
 	    )
 	);
 	
@@ -27174,4 +27231,4 @@
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=react-router-curriculum.1.0.0.js.map
+//# sourceMappingURL=react-router-email.1.0.0.js.map
